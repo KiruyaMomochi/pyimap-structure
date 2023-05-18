@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "imap-structure"
-version = "0.1.1"
+version = "0.1.2"
 description = "IMAP BODYSTRUCTURE parser"
 authors = ["Kiruya Momochi <65301509+kiruyamomochi@users.noreply.github.com>"]
 readme = "README.md"

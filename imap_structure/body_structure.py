@@ -109,9 +109,9 @@ class BodyStructure:
                 continue
             if part.body_disposition is None:
                 continue
-            if "attachment" not in part.body_disposition:
-                continue
             disposition = part.body_disposition.as_list()
+            if "attachment" not in disposition:
+                continue
             if len(disposition) > 1 and isinstance(disposition[1], list):
                 filename_idx = disposition[1].index("filename")
                 if len(disposition[1]) > filename_idx + 1:
@@ -123,7 +123,7 @@ class BodyStructure:
         return any(
             isinstance(part, BodyPartNonMultipart)
             and part.body_disposition is not None
-            and "attachment" in part.body_disposition
+            and "attachment" in part.body_disposition.as_list()
             for part in self.body_part.children
         )
 
