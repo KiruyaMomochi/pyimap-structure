@@ -103,11 +103,27 @@ class BodyStructure:
     def text_sections(self) -> list[tuple[str, str]]:
         return extract_text_sections(self.body_part)
 
+    def attachments(self):
+        for part in self.body_part.children:
+            if not isinstance(part, BodyPartNonMultipart):
+                continue
+            if part.body_disposition is None:
+                continue
+            if "attachment" not in part.body_disposition:
+                continue
+            disposition = part.body_disposition.as_list()
+            if len(disposition) > 1 and isinstance(disposition[1], list):
+                filename_idx = disposition[1].index("filename")
+                if len(disposition[1]) > filename_idx + 1:
+                    filename = disposition[1][filename_idx + 1]
+                    yield filename
+
     @cached_property
     def has_attachment(self) -> bool:
         return any(
-            part.mime_type[0].lower() == "application"
-            and part.mime_type[1].lower() == "octet-stream"
+            isinstance(part, BodyPartNonMultipart)
+            and part.body_disposition is not None
+            and "attachment" in part.body_disposition
             for part in self.body_part.children
         )
 
