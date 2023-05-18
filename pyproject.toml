@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "imap-structure"
+version = "0.1.0"
+description = "IMAP BODYSTRUCTURE parser"
+authors = ["Kiruya Momochi <65301509+kiruyamomochi@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{ include = "imap_structure" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyparsing = "^3.0.9"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
+autoflake = "^2.1.1"
+isort = "^5.12.0"
+black = "^23.3.0"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
