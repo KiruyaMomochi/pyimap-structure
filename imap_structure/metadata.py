@@ -1,5 +1,6 @@
 import collections.abc
 import imaplib
+import logging
 import re
 from dataclasses import dataclass
 from email.message import Message
@@ -7,6 +8,9 @@ from typing import Optional, Sequence
 
 from imap_structure.body_structure import BodyStructure, parse_body_structure
 from imap_structure.parser import guess_encoding, parse_bytes
+
+logger = logging.getLogger(__name__)
+
 
 METADATA_MESSAGE_PARTS = (
     "(" + " ".join(["UID", "FLAGS", "BODYSTRUCTURE", "BODY[HEADER]"]) + ")"
@@ -35,7 +39,9 @@ def fetch_raw_metadatas(
         message_set = f"({message_set_inner})"
 
     result, response = mail.fetch(message_set, METADATA_MESSAGE_PARTS)
-    assert result == "OK"
+    if result != "OK":
+        logger.error(response)
+        raise mail.error("Failed to fetch metadata")
     assert isinstance(response, list)
     return response
 
@@ -55,7 +61,9 @@ def fetch_raw_metadatas_uid(
         uid_set = f"({message_set_inner})"
 
     result, response = mail.uid("fetch", uid_set, METADATA_MESSAGE_PARTS)
-    assert result == "OK"
+    if result != "OK":
+        logger.error(response)
+        raise mail.error("Failed to fetch metadata")
     assert isinstance(response, list)
     return response
 
