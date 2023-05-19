@@ -57,6 +57,8 @@ def fetch_raw_metadatas_uid(
         assert not isinstance(
             uid_set, str
         )  # We don't want to get a string like "(1,2,3)"
+        if len(uid_set) == 0:
+            return []
         message_set_inner = ",".join(str(x) for x in uid_set)
         uid_set = f"({message_set_inner})"
 
