@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from email import _header_value_parser as parser
 from functools import cached_property
 from typing import NamedTuple, Optional
 
@@ -116,7 +117,8 @@ class BodyStructure:
                 filename_idx = disposition[1].index("filename")
                 if len(disposition[1]) > filename_idx + 1:
                     filename = disposition[1][filename_idx + 1]
-                    yield filename
+                    # Should be parse_content_disposition_header but we use get_unstructured
+                    yield str(parser.get_unstructured(filename))
 
     @cached_property
     def has_attachment(self) -> bool:
