@@ -5,6 +5,7 @@ description = "IMAP BODYSTRUCTURE parser"
 authors = ["Kiruya Momochi <65301509+kiruyamomochi@users.noreply.github.com>"]
 readme = "README.md"
 packages = [{ include = "imap_structure" }]
+homepage = "https://github.com/KiruyaMomochi/pyimap-structure"
 
 [tool.poetry.dependencies]
 python = "^3.10"
